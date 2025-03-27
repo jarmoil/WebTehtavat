@@ -28,3 +28,26 @@ const todoList = [
 ];
 
 // add your code here
+
+const taulukko = document.querySelector('#target');
+
+function createHtml (todoList) {
+  let html = '';
+
+  for (const item of todoList) {
+    html += `
+    <li>
+      <input type="checkbox" id="todo-${item.id}" ${item.completed ? 'checked' : ''}>
+      <label for="todo-${item.id}">${item.task}</label>
+    </li>
+    `;
+  }
+  return html;
+}
+
+const listHtml = createHtml(todoList);
+
+taulukko.insertAdjacentHTML('afterend', listHtml)
+
+
+
