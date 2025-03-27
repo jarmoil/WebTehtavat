@@ -771,3 +771,71 @@ const restaurants = [
 ];
 
 // your code here
+
+
+const options = {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0
+};
+
+// A function that is called when location information is retrieved
+async function success(pos) {
+  const crd = pos.coords;
+
+  // Use the leaflet.js library to show the location on the map (https://leafletjs.com/)
+  const map = L.map('map').setView([crd.latitude, crd.longitude], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+
+  // Add a marker for the user's location
+  L.marker([crd.latitude, crd.longitude]).addTo(map)
+    .bindPopup('I am here.')
+    .openPopup();
+
+    var circle = L.circle([crd.latitude, crd.longitude], {
+      color: 'red',
+      fillColor: '#f03',
+      fillOpacity: 0.5,
+      radius: 300
+  }).addTo(map);
+
+  // Add markers for all restaurants
+  let closestMarker = null;
+  let minDistance = Infinity;
+
+  restaurants.forEach(restaurant => {
+    const [longitude, latitude] = restaurant.location.coordinates;
+
+    // Calculate distance to the user's location
+    const distance = Math.sqrt(
+      Math.pow(latitude - crd.latitude, 2) + Math.pow(longitude - crd.longitude, 2)
+    );
+
+    // Check if this restaurant is the closest
+    if (distance < minDistance) {
+      minDistance = distance;
+      closestMarker = { latitude, longitude, name: restaurant.name };
+    }
+
+    const marker = L.marker([latitude, longitude]).addTo(map)
+      .bindPopup(`<h3><strong>${restaurant.name}</strong></h3><p>${restaurant.address}, ${restaurant.city}`);
+  });
+
+  // Highlight the closest restaurant marker
+  if (closestMarker) {
+    const closestPopup = L.popup()
+      .setLatLng([closestMarker.latitude, closestMarker.longitude])
+      .setContent(`<h3><strong>Closest Restaurant:</strong></h3><p>${closestMarker.name}</p>`)
+      .openOn(map);
+  }
+}
+
+// Function to be called if an error occurs while retrieving location information
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+
+// Starts the location search
+navigator.geolocation.getCurrentPosition(success, error, options);
