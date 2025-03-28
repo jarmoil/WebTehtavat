@@ -1,5 +1,4 @@
 import {fetchData} from '../lib/fetchData.js';
-// your code here
 
 const apiUrl = 'https://media2.edu.metropolia.fi/restaurant/api/v1';
 const taulukko = document.querySelector('#target');
@@ -47,16 +46,18 @@ async function getRestaurants() {
   try {
     restaurants = await fetchData(apiUrl + '/restaurants');
   } catch (error) {
-    console.error(error);
+    console.error('Failed to fetch restaurants:', error);
+    alert('Failed to load restaurant data. Please try again later.');
   }
 }
-// hae tietyn ravintolan päivän menu
 
+// hae tietyn ravintolan päivän menu
 async function getDailyMenu(id, lang) {
   try {
     return await fetchData(`${apiUrl}/restaurants/daily/${id}/${lang}`);
-  } catch {
-    console.log(error);
+  } catch (error) {
+    console.error('Failed to fetch daily menu:', error);
+    alert('Failed to load menu data. Please try again later.');
   }
 }
 
@@ -81,6 +82,10 @@ function createTable() {
 
         // hae menu
         const coursesResponse = await getDailyMenu(restaurant._id, 'fi');
+        if (!coursesResponse) {
+          alert('No menu available for this restaurant.');
+          return;
+        }
         // hae menu html
         const menuHtml = createMenuHtml(coursesResponse.courses);
         // tyhjennä modal
@@ -92,7 +97,7 @@ function createTable() {
         // lisää menu html
         modal.insertAdjacentHTML('beforeend', menuHtml);
       } catch (error) {
-        console.error(error);
+        console.error('Error handling restaurant click:', error);
       }
     });
     // lisätään solut riviin
@@ -107,7 +112,7 @@ async function main() {
     sortRestaurants();
     createTable();
   } catch (error) {
-    console.error(error);
+    console.error('Error initializing app:', error);
   }
 }
 
