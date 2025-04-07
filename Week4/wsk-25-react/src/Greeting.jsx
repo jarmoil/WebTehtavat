@@ -1,10 +1,15 @@
 import PropTypes from 'prop-types';
+import MitenMenee from './MitenMenee';
 
 const Greeting = (props) => {
+  function handleButtonClick() {
+    alert('Klikki');
+  }
   return (
     <>
       <h3>Moi, {props.name}!</h3>
-      <p>Miten menee?</p>
+      <MitenMenee />
+      <button onClick={handleButtonClick}>nappi</button>
     </>
   );
 };
