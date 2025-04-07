@@ -28,3 +28,22 @@ const todoList = [
 ];
 
 // add your code here
+
+const taulukko = document.querySelector('#target');
+
+todoList.forEach(item => {
+  const i = document.createElement('input');
+  i.type = 'checkbox';
+  i.id = `todo-${item.id}`;
+  i.checked = item.completed;
+
+  const l = document.createElement('label');
+  l.htmlFor = `todo-${item.id}`;
+  l.textContent = item.task;
+
+  const li = document.createElement('li');
+  li.appendChild(i);
+  li.appendChild(l);
+
+  taulukko.appendChild(li);
+});

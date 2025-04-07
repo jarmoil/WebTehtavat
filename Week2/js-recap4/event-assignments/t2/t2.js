@@ -798,7 +798,22 @@ for (const restaurant of restaurants) {
     const nameH3 = document.createElement('h3');
     nameH3.innerText = restaurant.name;
 
-    modal.append(nameH3);
+    const address = document.createElement('p');
+    address.innerText = `Address: ${restaurant.address}`;
+
+    const postalCode = document.createElement('p');
+    postalCode.innerText = `Postal code: ${restaurant.postalCode}`;
+
+    const city = document.createElement('p');
+    city.innerText = `City: ${restaurant.city}`;
+
+    const phone = document.createElement('p');
+    phone.innerText = `Phone: ${restaurant.phone}`;
+
+    const company = document.createElement('p');
+    company.innerText = `Company: ${restaurant.company}`;
+
+    modal.append(nameH3, address, postalCode, city, phone, company);
   });
 
   // nimisolu
