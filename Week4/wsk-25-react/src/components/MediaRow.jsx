@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
+import {Link} from 'react-router-dom';
 
 // src/components/MediaRow.jsx
 const MediaRow = (props) => {
-  const {item, setSelectedItem} = props;
+  const {item /*setSelectedItem*/} = props;
   return (
     // TODO: move <tr> element in foreach from Home.jsx here
     <tr key={item.media_id}>
@@ -15,13 +16,17 @@ const MediaRow = (props) => {
       <td>{item.filesize}</td>
       <td>{item.media_type}</td>
       <td>
-        <button
+        <Link to="/single" state={{item}}>
+          View
+        </Link>
+
+        {/* <button
           onClick={() => {
             setSelectedItem(item);
           }}
         >
           View
-        </button>
+        </button> */}
       </td>
     </tr>
   );

@@ -1,5 +1,7 @@
 // SingleView.jsx
 
+import PropTypes from 'prop-types';
+
 const SingleView = (props) => {
   const {item, setSelectedItem} = props;
   const handleClick = () => {
@@ -19,7 +21,7 @@ const SingleView = (props) => {
           {item.media_type.includes('video') ? (
             <video src={item.filename} controls />
           ) : (
-            <igm src={item.filename} alt={item.title} />
+            <img src={item.filename} alt={item.title} />
           )}
           <h3>Title: {item.title}</h3>
           <p>{item.description}</p>
@@ -28,4 +30,10 @@ const SingleView = (props) => {
     </>
   );
 };
+
+SingleView.propTypes = {
+  item: PropTypes.object.isRequired,
+  setSelectedItem: PropTypes.func.isRequired,
+};
+
 export default SingleView;
