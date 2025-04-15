@@ -95,5 +95,4 @@ const useUser = () => {
   };
   return {getUserByToken, postUser};
 };
-
 export {useMedia, useAuthentication, useUser};
